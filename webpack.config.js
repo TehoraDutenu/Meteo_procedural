@@ -29,7 +29,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Javascript Objet avec Webpack',
+      title: 'appli-meteo-objet',
     })
   ],
   module: {

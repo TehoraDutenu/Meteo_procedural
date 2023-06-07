@@ -1,4 +1,4 @@
-name: pp-starter-webpack
+name: appli-meteo-objet
 services:
   node:
     type: node:16
