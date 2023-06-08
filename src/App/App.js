@@ -7,6 +7,11 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 // importer les icones de bootstrap
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import WeatherService from './Services/WeatherService';
+import CurrentWeather from './Class/CurrentWeather';
+import MainWeather from './Class/MainWeather';
+
+// import du fichier style.css
+import '../assets/style.css';
 
 
 // on déclare la clé API
@@ -154,6 +159,13 @@ class App {
 
         elContainer.append(elH1, elCoordsTitle, elLat, elLon, elCityTitle, elCity, elButton);
 
+        // on crée la div Result qu'on ajoute au container
+        this.elResultDiv = document.createElement('div');
+        this.elResultDiv.className = 'mt-3';
+        this.elResultDiv.setAttribute('id', 'result');
+        elContainer.appendChild(this.elResultDiv);
+
+        // on place le container dans le body
         document.body.appendChild(elContainer);
     }
     // méthode qui affiche la météo
@@ -180,6 +192,27 @@ class App {
 
     handleServiceResponse(serviceResponse) {
         console.log('service', serviceResponse);
+
+        // si la réponse n'est pas ok, on affiche une erreur
+        if (!serviceResponse.ok) {
+            console.log(serviceResponse.error);
+            this.elResultDiv.append(this.getErrorDom('serviceResponse.error'));
+        }
+
+        // si la réponse est 'ok' on afffiche la météo
+        // on devra créer une classe pour la météo
+        // instancier la class CurrentWeather
+        const currentWeather = new MainWeather(serviceResponse.data);
+        this.elResultDiv.append(currentWeather.getDom());
+    }
+
+    getErrorDom(error) {
+        console.log('error', error);
+        const elDivError = document.createElement('div');
+        elDivError.innerHTML = '';
+        elDivError.className = 'weather-item error text-danger display-4';
+        elDivError.innerHTML = error.error;
+        return elDivError;
     }
 }
 
