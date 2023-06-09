@@ -23,7 +23,7 @@ class Wind {
             <div class="d-flex flex-column">
                 <div class="d-flex flex-row align-items-center">
                     <i class="bi bi-speedometer2 mx-2"></i>
-                    <span>Vitesse du vent: ${Math.floor(this.speed * 3.6)}</span>
+                    <span>Vitesse du vent: ${Math.floor(this.speed * 3.6)} km/h</span>
                 </div>
                 <div class="d-flex flex-row align-items-center">
                     <i class="bi bi-compass mx-2"></i>

@@ -79,6 +79,7 @@ class MainWeather {
         tab1.setAttribute('aria-labelledby', 'tab1-tab');
         tab1.innerHTML = `
             <h5 class="card-title">Informations générales</h5>
+            <p>${this.locationName}, ${this.country}</p>
         `;
         tab1.append(this.weather.getDom());
 
@@ -110,13 +111,43 @@ class MainWeather {
         tab4.setAttribute('role', 'tabpanel');
         tab4.setAttribute('aria-labelledby', 'tab4-tab');
         tab4.innerHTML = `
-            <h5 class="card-title">Infos solaires</h5>
+            <h5 class="card-title">Lever et coucher du soleil</h5>
         `;
         tab4.append(this.sun.getDom());
 
+
+        const tab5 = document.createElement('div');
+        tab5.className = "tab-pane fade";
+        tab5.id = "tab5";
+        tab5.setAttribute('role', 'tabpanel');
+        tab5.setAttribute('aria-labelledby', 'tab5-tab');
+        tab5.innerHTML = `
+                <h5 class="card-title">Précipitations</h5>
+            `;
+        if (this.rain) {
+            const rain = document.createElement('div');
+            rain.innerHTML = `
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-cloud-drizzle mx-2"></i>
+                        <span>Cumul de pluie: ${this.rain} mm</span>
+                    </div>
+                `;
+            tab5.append(rain);
+        }
+        if (this.snow) {
+            const snow = document.createElement('div');
+            snow.innerHTML = `
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-snow2 mx-2"></i>
+                        <span>Cumul de neige: ${this.snow} mm</span>
+                    </div>
+                `;
+            tab5.append(snow);
+        }
+
         // créer l'élément pour la liste des onglets
         const tabList = document.createElement('ul');
-        tabList.className = "nav nav-tabs card-header-tabs";
+        tabList.className = "nav nav-tabs card-header-tabs ms-0";
         tabList.id = "myTabs";
         tabList.setAttribute('role', 'tablist');
         tabList.innerHTML = `
@@ -125,7 +156,7 @@ class MainWeather {
             </li>
 
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="tab2-tab" data-bs-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Général</a>
+                <a class="nav-link" id="tab2-tab" data-bs-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Températures</a>
             </li>
 
             <li class="nav-item" role="presentation">
@@ -136,6 +167,25 @@ class MainWeather {
                 <a class="nav-link" id="tab4-tab" data-bs-toggle="tab" href="#tab4" role="tab" aria-controls="tab4" aria-selected="false">Soleil</a>
             </li>
         `;
+        if (this.rain || this.snow) {
+            const precipitations = document.createElement('li');
+            precipitations.className = "nav-item";
+            precipitations.setAttribute('role', 'presentation')
+            precipitations.innerHTML = `
+                <a class="nav-link" id="tab5-tab" data-bs-toggle="tab" href="#tab5" role="tab" aria-controls="tab5" aria-selected="false">Précipitations</a>
+            `;
+            tabList.append(precipitations);
+        };
+
+        // même chose avec la concaténation
+        // if (this.rain || this.snow) {
+        //     tabList.innerHTML += `
+        //          <li class="nav-item">
+        //              <a class="nav-link" id="tab5-tab" data-bs-toggle="tab" href="#tab5" role="tab" aria-controls="tab5" aria-selected="false">Précipitations</a>
+        //          </li>
+        //     `;
+        // };
+
 
         // créer l'élément pour le contenu de la carte
         const cardBody = document.createElement('div');
@@ -146,6 +196,7 @@ class MainWeather {
                 ${tab2.outerHTML}
                 ${tab3.outerHTML}
                 ${tab4.outerHTML}
+                ${tab5.outerHTML}
             </div>
         `;
 
@@ -161,6 +212,7 @@ class MainWeather {
 
         resultDiv.innerHTML = '';
         resultDiv.append(cardContainer);
+        return cardContainer;
     }
 }
 
